@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+
+    <style>
+        .modal {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Вибрати мову/Выбрать язык</h1>
+                </div>
+                <div class="modal-body">
+                    <button type="button" id="ua" class="btn btn-secondary">Українська</button>
+                    <button type="button" id="ru" class="btn btn-secondary">Русский</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Text content -->
+    <div id="textContent" style="display: none;">
+        <h2 id="greeting"></h2>
+        <p id="description"></p>
+    </div>
+
+    <!-- Bootstrap JS (необходимы для Bootstrap модального окна) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var languageModal = new bootstrap.Modal(document.getElementById('languageModal'));
+
+            // Проверяем, есть ли данные о языке в localStorage
+            var selectedLanguage = localStorage.getItem('selectedLanguage');
+
+            // Если есть, выбираем язык и не показываем модальное окно
+            if (selectedLanguage) {
+                selectLanguage(selectedLanguage);
+            } else {
+                // Если данных нет, показываем модальное окно
+                languageModal.show();
+            }
+
+            // Назначаем обработчик события клика на кнопку Украинский
+            document.getElementById('ua').addEventListener('click', function () {
+                selectLanguage('Українська');
+                languageModal.hide();
+            });
+
+            // Назначаем обработчик события клика на кнопку Русский
+            document.getElementById('ru').addEventListener('click', function () {
+                selectLanguage('Русский');
+                languageModal.hide();
+            });
+        });
+
+        function selectLanguage(language) {
+            var greeting = document.getElementById('greeting');
+            var description = document.getElementById('description');
+
+            if (language === 'Українська') {
+                greeting.innerText = 'Ласкаво просимо!';
+                description.innerText = 'Це текст на українській мові.';
+            } else if (language === 'Русский') {
+                greeting.innerText = 'Добро пожаловать!';
+                description.innerText = 'Это текст на русском языке.';
+            }
+
+            // Сохраняем выбранный язык в localStorage
+            localStorage.setItem('selectedLanguage', language);
+
+            // Показываем текст на странице
+            document.getElementById('textContent').style.display = 'block';
+        }
+    </script>
+
+</body>
+
+</html>
